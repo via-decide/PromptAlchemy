@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PromptForge | First-Render Prompt Pack</title>
+  <title>PromptAlchemy | First-Render Prompt Pack</title>
   <meta name="theme-color" content="#0b0f17" />
   <meta name="description" content="Cross-model prompt reliability engine for social growth creators. Generate first-render stable prompt packs for Canva, ChatGPT, Gemini, Claude." />
   <style>
@@ -13,7 +13,7 @@
       --line:#1f2937;
       --text:#e5e7eb;
       --muted:#94a3b8;
-      --accent:#7c3aed;
+      --accent:#ff671f;
       --accent2:#22c55e;
       --warn:#ef4444;
       --chip:#0b1220;
@@ -22,16 +22,14 @@
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.25), transparent 55%),
-                  radial-gradient(1000px 600px at 90% 0%, rgba(34,197,94,.18), transparent 55%),
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(255,103,31,.22), transparent 55%),
+                  radial-gradient(1000px 600px at 90% 0%, rgba(34,197,94,.16), transparent 55%),
                   linear-gradient(180deg, #070a11 0%, var(--bg) 55%, #070a11 100%);
       color:var(--text);
     }
     .wrap{max-width:1200px;margin:0 auto;padding:22px 14px 42px;}
     header{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-    .brand{
-      display:flex;flex-direction:column;gap:6px;min-width:240px;
-    }
+    .brand{display:flex;flex-direction:column;gap:6px;min-width:240px;}
     .brand h1{margin:0;font-size:20px;letter-spacing:.2px}
     .brand .sub{color:var(--muted);font-size:12.5px;line-height:1.35}
     .pillbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
@@ -64,7 +62,7 @@
       border:1px solid var(--line); background:#0b1220; color:var(--text);
       padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700;font-size:12px;
     }
-    button.primary{background:linear-gradient(135deg,var(--accent),#4f46e5);border:none}
+    button.primary{background:linear-gradient(135deg,var(--accent),#f97316);border:none;color:#0b0f17}
     button.good{background:linear-gradient(135deg,var(--accent2),#16a34a);border:none}
     button.warn{background:linear-gradient(135deg,var(--warn),#b91c1c);border:none}
     button:active{transform:translateY(1px);opacity:.96}
@@ -80,12 +78,7 @@
     .status{font-size:11px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(11,18,32,.75)}
     .status.ok{border-color:rgba(34,197,94,.6);color:#86efac}
     .status.bad{border-color:rgba(239,68,68,.6);color:#fca5a5}
-    .footer{
-      margin-top:14px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap
-    }
-    .link{
-      color:#c4b5fd;text-decoration:none;border-bottom:1px dotted rgba(196,181,253,.5)
-    }
+    .footer{margin-top:14px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .chipline{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .chip{
       border:1px solid var(--line);
@@ -100,7 +93,7 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <h1>PromptForge</h1>
+      <h1>PromptAlchemy</h1>
       <div class="sub">Cross-model reliability engine for social growth creators. Generate <b>first-render</b> prompt packs for Canva / ChatGPT / Gemini / Claude.</div>
       <div class="chipline">
         <span class="chip">Model Adapter</span>
@@ -182,7 +175,7 @@
       <div class="row">
         <div>
           <label>Brand style (optional)</label>
-          <textarea id="brand" placeholder="Palette, vibe, fonts/typography vibe, texture. e.g., minimal, monochrome, neon accent, clean tech."></textarea>
+          <textarea id="brand" placeholder="Palette, vibe, typography style. e.g., minimal, monochrome, orange accent, clean tech."></textarea>
         </div>
         <div>
           <label>Strictness</label>
@@ -242,7 +235,7 @@
       </div>
 
       <div class="muted">
-        <b>Alchemist credit logic:</b> every successful “Send to Alchemy” email = a credit event (tier→credits mapping can be applied in your backend).
+        <b>Credit logic:</b> every “Send to Alchemy” email is a credit event (tier → credits embedded in subject).
       </div>
     </section>
 
@@ -254,11 +247,11 @@
       </div>
       <div class="mono" id="preview"></div>
       <div class="muted">
-        <b>Note:</b> This preview is already model-adapted. Use “Send to Alchemy” to create a verifiable credit event via email to <b>dharam@viadecide.com</b>.
+        “Share Link” always copies a URL starting with <b>https://viadecide.com/</b> and restores the form when opened.
       </div>
       <div class="footer">
         <span>© viadecide.com</span>
-        <span class="tiny">Positioning: “first-render prompt packs across models”</span>
+        <span class="tiny">Positioning: first-render prompt packs across models</span>
       </div>
     </section>
   </div>
@@ -270,21 +263,17 @@
    ***********************/
   const EMAIL_TO = "dharam@viadecide.com";
 
-  // Share links MUST open with viadecide.com
+  // ✅ Share links MUST open with viadecide.com
+  // If you later host under a subfolder, set SHARE_PATH="/PromptAlchemy/"
   const SHARE_BASE = "https://viadecide.com";
-  const SHARE_PATH = "/";
+  const SHARE_PATH = "/PromptAlchemy/";
 
-  // Amazon Associates
+  // ✅ Amazon Associates tracking ID (from your screenshot)
   const AMZN_TAG = "decideengine-21";
 
-  const LS_PROFILES_KEY = "promptforge_brand_profiles_v1";
+  const LS_PROFILES_KEY = "promptalchemy_brand_profiles_v1";
 
-  const MODEL_LABEL = {
-    canva: "CANVA",
-    chatgpt: "CHATGPT",
-    gemini: "GEMINI",
-    claude: "CLAUDE"
-  };
+  const MODEL_LABEL = { canva:"CANVA", chatgpt:"CHATGPT", gemini:"GEMINI", claude:"CLAUDE" };
 
   const PLATFORM_RULES = {
     instagram: {
@@ -319,10 +308,8 @@
     el.textContent = msg;
     el.className = "status " + (ok ? "ok" : "bad");
   }
-
   function uid(){
-    // short, email-safe prompt id
-    return "PF-" + Math.random().toString(16).slice(2, 6).toUpperCase() + "-" + Date.now().toString(16).slice(-6).toUpperCase();
+    return "PA-" + Math.random().toString(16).slice(2, 6).toUpperCase() + "-" + Date.now().toString(16).slice(-6).toUpperCase();
   }
 
   function scrollTriggers(goal){
@@ -460,7 +447,7 @@ VARIANT TWEAK:
     }
 
     const header =
-`PROMPTFORGE PREVIEW
+`PROMPTALCHEMY PREVIEW
 PromptID: ${promptId}
 Model: ${MODEL_LABEL[spec.model]} | Tier: ${spec.tier.toUpperCase()} | Platform: ${spec.platform.toUpperCase()} | Format: ${spec.format}
 Generated: ${new Date().toISOString()}
@@ -477,13 +464,12 @@ Generated: ${new Date().toISOString()}
   }
 
   /***********************
-   * SHARE (viadecide.com)
+   * SHARE (FORCED viadecide.com)
    ***********************/
   function serialize(obj){
     const json = JSON.stringify(obj);
-    const b64 = btoa(unescape(encodeURIComponent(json)))
+    return btoa(unescape(encodeURIComponent(json)))
       .replaceAll("+","-").replaceAll("/","_").replaceAll("=","");
-    return b64;
   }
   function deserialize(payload){
     let b64 = payload.replaceAll("-","+").replaceAll("_","/");
@@ -492,13 +478,23 @@ Generated: ${new Date().toISOString()}
     return JSON.parse(json);
   }
 
+  function shareLink(){
+    const spec = buildSpec();
+    const payload = serialize({ spec });
+    const url = `${SHARE_BASE}${SHARE_PATH}#p=${payload}`;
+    if(navigator.clipboard?.writeText){
+      navigator.clipboard.writeText(url).then(() => setStatus("Share link copied (viadecide.com).", true));
+    } else {
+      window.prompt("Copy share link:", url);
+    }
+  }
+
   function applyFromHash(){
     const h = (location.hash || "").trim();
     if(!h.startsWith("#p=")) return;
     try{
       const payload = h.slice(3);
       const state = deserialize(payload);
-      // Restore fields if present
       if(state?.spec){
         const s = state.spec;
         $("model").value = s.model || "canva";
@@ -519,19 +515,7 @@ Generated: ${new Date().toISOString()}
       generate();
     }catch(e){
       console.error(e);
-      setStatus("Invalid share link payload.", false);
-    }
-  }
-
-  function shareLink(){
-    const spec = buildSpec();
-    const state = { spec };
-    const payload = serialize(state);
-    const url = `${SHARE_BASE}${SHARE_PATH}#p=${payload}`;
-    if(navigator.clipboard?.writeText){
-      navigator.clipboard.writeText(url).then(() => setStatus("Share link copied.", true));
-    } else {
-      window.prompt("Copy share link:", url);
+      setStatus("Invalid share payload.", false);
     }
   }
 
@@ -542,8 +526,7 @@ Generated: ${new Date().toISOString()}
     try{
       const u = new URL(rawUrl);
       const host = u.hostname.replace(/^www\./, "");
-      const isAmazon = host.includes("amazon.");
-      if(!isAmazon) return rawUrl;
+      if(!host.includes("amazon.")) return rawUrl;
       u.searchParams.set("tag", AMZN_TAG);
       return u.toString();
     }catch(e){
@@ -558,10 +541,13 @@ Generated: ${new Date().toISOString()}
   /***********************
    * BRAND PROFILES
    ***********************/
+  function escapeHtml(s){
+    return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  }
   function loadProfiles(){
-    try{
-      return JSON.parse(localStorage.getItem(LS_PROFILES_KEY) || "[]");
-    }catch(e){ return []; }
+    try{ return JSON.parse(localStorage.getItem(LS_PROFILES_KEY) || "[]"); }
+    catch(e){ return []; }
   }
   function saveProfiles(list){
     localStorage.setItem(LS_PROFILES_KEY, JSON.stringify(list));
@@ -573,12 +559,7 @@ Generated: ${new Date().toISOString()}
     sel.innerHTML = `<option value="">(none)</option>` + profiles.map(p =>
       `<option value="${p.id}">${escapeHtml(p.name)}</option>`
     ).join("");
-    // keep selection if possible
     if(curr) sel.value = curr;
-  }
-  function escapeHtml(s){
-    return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
   }
   function saveCurrentAsProfile(){
     const name = window.prompt("Profile name (e.g., 'My IG Brand'):", "");
@@ -591,7 +572,6 @@ Generated: ${new Date().toISOString()}
       brand: spec.brand,
       strict: spec.strict
     });
-    // cap
     saveProfiles(profiles.slice(0, 30));
     refreshProfileSelect();
     setStatus("Brand profile saved.", true);
@@ -599,8 +579,7 @@ Generated: ${new Date().toISOString()}
   function deleteSelectedProfile(){
     const id = $("profile").value;
     if(!id) return setStatus("No profile selected.", false);
-    const profiles = loadProfiles();
-    const next = profiles.filter(p => p.id !== id);
+    const next = loadProfiles().filter(p => p.id !== id);
     saveProfiles(next);
     refreshProfileSelect();
     $("profile").value = "";
@@ -609,8 +588,7 @@ Generated: ${new Date().toISOString()}
   function applyProfile(){
     const id = $("profile").value;
     if(!id) return;
-    const profiles = loadProfiles();
-    const p = profiles.find(x => x.id === id);
+    const p = loadProfiles().find(x => x.id === id);
     if(!p) return;
     $("brand").value = p.brand || "";
     $("strict").value = p.strict || "balanced";
@@ -647,7 +625,7 @@ Generated: ${new Date().toISOString()}
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `promptforge_${CURRENT_PROMPT_ID}_${Date.now()}.txt`;
+    a.download = `promptalchemy_${CURRENT_PROMPT_ID}_${Date.now()}.txt`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -659,10 +637,8 @@ Generated: ${new Date().toISOString()}
     const spec = buildSpec();
     const out = buildOutput(spec, CURRENT_PROMPT_ID);
     $("preview").textContent = out.text;
-
     if(!out.ok) return setStatus("Cannot email. Fix required fields.", false);
 
-    // Tier→credits (for backend) - adjust anytime
     const tierCredits = { bronze: 1, silver: 3, gold: 5, obsidian: 8 };
     const credits = tierCredits[spec.tier] ?? 1;
 
@@ -689,7 +665,6 @@ Thanks.`;
     const mailto = `mailto:${encodeURIComponent(EMAIL_TO)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
 
-    // Rotate prompt id for next request (prevents accidental re-burn)
     CURRENT_PROMPT_ID = uid();
     setStatus("Email draft opened (credit event).", true);
   }
@@ -728,9 +703,7 @@ Thanks.`;
   $("deleteProfile").addEventListener("click", deleteSelectedProfile);
   $("profile").addEventListener("change", applyProfile);
 
-  // Example Amazon link (replace with your chosen product/category page)
   $("amazonTools").addEventListener("click", () => {
-    // Replace this with your "tools list" URL or category
     openAmazon("https://www.amazon.in/s?k=content+creator+lighting");
   });
 
@@ -748,8 +721,8 @@ Required:
 Flow:
 1) Generate Preview
 2) Copy / Download
-3) Send to Alchemy (Email) = credit event`;
-
+3) Send to Alchemy (Email) = credit event
+4) Share Link = viadecide.com/#p=...`;
 </script>
 </body>
 </html>
