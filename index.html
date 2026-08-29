@@ -1,11 +1,13 @@
 <!doctype html>
+<!-- PromptAlchemy engine v2.0.0; canonical product mount: https://viadecide.com/tools/promptalchemy -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PromptAlchemy | First-Render Prompt Pack</title>
+  <title>PromptAlchemy | Visual Intent Prompt Engine</title>
   <meta name="theme-color" content="#0b0f17" />
-  <meta name="description" content="Cross-model prompt reliability engine for social growth creators. Generate first-render stable prompt packs for Canva, ChatGPT, Gemini, Claude." />
+  <meta name="description" content="Generate fidelity-guarded visual prompt packs using intent, model and platform-specific rules for Canva, ChatGPT, Gemini and Claude." />
+  <link rel="canonical" href="https://viadecide.com/tools/promptalchemy" />
   <style>
     :root{
       --bg:#0b0f17;
@@ -94,10 +96,11 @@
   <header>
     <div class="brand">
       <h1>PromptAlchemy</h1>
-      <div class="sub">Cross-model reliability engine for social growth creators. Generate <b>first-render</b> prompt packs for Canva / ChatGPT / Gemini / Claude.</div>
+      <div class="sub">Cross-model visual instruction engine for distribution, explanation and system visuals. Generate <b>fidelity-guarded</b> prompt packs for Canva / ChatGPT / Gemini / Claude.</div>
       <div class="chipline">
         <span class="chip">Model Adapter</span>
         <span class="chip">Platform Rules</span>
+        <span class="chip">Visual Intent Compiler</span>
         <span class="chip">Tier Variants</span>
         <span class="chip">Email = Credit Event</span>
       </div>
@@ -158,6 +161,41 @@
         </div>
       </div>
 
+      <div class="row">
+        <div>
+          <label>Visual Intent / Command</label>
+          <select id="intent">
+            <optgroup label="Distribution">
+              <option value="socialvisual" selected>/socialvisual - Social visual</option>
+              <option value="adcreative">/adcreative - Advertising creative</option>
+              <option value="thumbnail">/thumbnail - Thumbnail</option>
+              <option value="carousel">/carousel - Carousel system</option>
+              <option value="storyboard">/storyboard - Storyboard</option>
+            </optgroup>
+            <optgroup label="Explanation">
+              <option value="infographic">/infographic - Structured infographic</option>
+              <option value="flowchart">/flowchart - Process or decision flow</option>
+              <option value="comparison">/comparison - Side-by-side comparison</option>
+              <option value="timeline">/timeline - Chronological evolution</option>
+              <option value="roadmap">/roadmap - Phases and milestones</option>
+            </optgroup>
+            <optgroup label="Systems and Product">
+              <option value="dashboard">/dashboard - KPI dashboard</option>
+              <option value="architecture">/architecture - System architecture</option>
+              <option value="blueprint">/blueprint - Technical blueprint</option>
+              <option value="explodedview">/explodedview - Exploded assembly</option>
+              <option value="xray">/xray - Transparent internal view</option>
+              <option value="wireframe">/wireframe - App or website structure</option>
+              <option value="mockup">/mockup - Realistic product preview</option>
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <label>Audience / Decision Context</label>
+          <input id="audience" placeholder="e.g., factory managers deciding on a retrofit" />
+        </div>
+      </div>
+
       <label>Niche</label>
       <input id="niche" placeholder="e.g., fitness, AI tools, finance, productivity" />
 
@@ -189,6 +227,9 @@
 
       <label>Core visual idea <span class="req">*required</span></label>
       <textarea id="idea" placeholder="Concrete: subject + composition + scene + background. Example: 'Close-up athlete tying shoes, dramatic rim light, dark gym background, shallow depth of field'"></textarea>
+
+      <label>Source facts / Exact copy (optional)</label>
+      <textarea id="content" placeholder="Exact labels, steps, numbers, claims, or on-image copy. Information-heavy modes use placeholders instead of inventing missing facts."></textarea>
 
       <div class="row">
         <div>
@@ -278,7 +319,7 @@
       </div>
       <div class="footer">
         <span>© viadecide.com</span>
-        <span class="tiny">Positioning: first-render prompt packs across models</span>
+        <span class="tiny">Positioning: intent-compiled prompt packs across models</span>
       </div>
     </section>
   </div>
@@ -289,11 +330,12 @@
    * CONFIG
    ***********************/
   const EMAIL_TO = "dharam@viadecide.com";
+  const ENGINE_VERSION = "2.0.0";
 
   // ✅ Share links MUST open with viadecide.com
-  // If you later host under a subfolder, set SHARE_PATH="/PromptAlchemy/"
+  // Canonical production mount.
   const SHARE_BASE = "https://viadecide.com";
-  const SHARE_PATH = "/PromptAlchemy/";
+  const SHARE_PATH = "/tools/promptalchemy";
 
   // ✅ Amazon Associates tracking ID (from your screenshot)
   const AMZN_TAG = "decideengine-21";
@@ -322,6 +364,155 @@
     tiktok: {
       focus: "9:16 cover-ready, strong subject separation, motion implication, vivid contrast.",
       textRule: "If text is used, keep ≤ 5 words, bold."
+    }
+  };
+
+  const INTENT_RULES = {
+    socialvisual: {
+      command: "/socialvisual",
+      objective: "Communicate one message in a feed-native visual that can be understood in under two seconds.",
+      structure: "One dominant focal point, one supporting cue, one reserved message zone, clear foreground/background separation.",
+      guard: "Do not create multiple competing messages or dense body copy.",
+      negative: "competing focal points, dense copy, weak hierarchy",
+      emphasis: "single-message hierarchy and feed readability"
+    },
+    adcreative: {
+      command: "/adcreative",
+      objective: "Present the offer, benefit and next action in one conversion-oriented composition.",
+      structure: "Product or outcome first, visible benefit cue second, protected CTA zone third.",
+      guard: "Do not invent performance claims, discounts, testimonials or product capabilities.",
+      negative: "unsupported claims, fake testimonials, hidden product, ambiguous CTA",
+      emphasis: "offer clarity and product-first conversion framing"
+    },
+    thumbnail: {
+      command: "/thumbnail",
+      objective: "Create an attention-grabbing thumbnail that remains legible at small size.",
+      structure: "One large subject, strong silhouette, controlled background and no more than three words when text is requested.",
+      guard: "Do not use micro-details, long text, weak expressions or low-contrast subjects.",
+      negative: "tiny text, busy background, weak silhouette, low contrast",
+      emphasis: "small-size legibility and immediate curiosity"
+    },
+    carousel: {
+      command: "/carousel",
+      objective: "Define a consistent multi-slide visual system for sequential distribution.",
+      structure: "Cover frame, repeatable content frame, evidence/example frame and closing action frame with fixed grid and style tokens.",
+      guard: "Do not change typography, palette or layout logic between frames.",
+      negative: "inconsistent slides, changing grid, repeated content, weak cover",
+      emphasis: "cross-slide continuity and information progression"
+    },
+    storyboard: {
+      command: "/storyboard",
+      objective: "Translate the idea into a clear scene-by-scene visual sequence.",
+      structure: "Numbered panels with shot type, subject action, setting, transition and continuity anchors.",
+      guard: "Do not introduce unexplained characters, props or discontinuous environments.",
+      negative: "continuity errors, unnumbered panels, ambiguous action, unexplained props",
+      emphasis: "scene continuity and readable panel progression"
+    },
+    infographic: {
+      command: "/infographic",
+      objective: "Turn verified information into a structured visual explanation.",
+      structure: "Title, one hierarchy of sections, concise labels, evidence blocks and a clear reading path.",
+      guard: "Never invent statistics, sources, labels or causal relationships; use placeholders when source facts are absent.",
+      negative: "invented statistics, fake citations, decorative charts, unreadable labels",
+      emphasis: "evidence hierarchy and label fidelity",
+      evidenceSensitive: true
+    },
+    flowchart: {
+      command: "/flowchart",
+      objective: "Map a process or decision path with unambiguous direction and states.",
+      structure: "Single start, action nodes, decision diamonds, labelled branches and explicit terminal states.",
+      guard: "Do not use crossed connectors, orphan nodes, unlabeled branches or circular logic unless a loop is supplied.",
+      negative: "crossed arrows, orphan nodes, unlabeled decisions, ambiguous direction",
+      emphasis: "node semantics and connector clarity",
+      evidenceSensitive: true
+    },
+    comparison: {
+      command: "/comparison",
+      objective: "Compare alternatives on an aligned and neutral basis.",
+      structure: "Shared criteria, matched columns, equal visual weight, explicit units and a bounded conclusion zone.",
+      guard: "Do not mix measurement bases, scales or time periods; do not visually bias an option without supplied evidence.",
+      negative: "mixed units, biased scale, unmatched criteria, unsupported winner",
+      emphasis: "aligned criteria and fair visual weighting",
+      evidenceSensitive: true
+    },
+    timeline: {
+      command: "/timeline",
+      objective: "Show chronological change with explicit order and intervals.",
+      structure: "One time axis, dated milestones, short event labels and distinct past/current/future states.",
+      guard: "Do not invent dates, reorder events or imply equal intervals when timing is unknown.",
+      negative: "invented dates, reversed chronology, unclear intervals, duplicate milestones",
+      emphasis: "chronology and milestone legibility",
+      evidenceSensitive: true
+    },
+    roadmap: {
+      command: "/roadmap",
+      objective: "Visualize an execution path through phases, dependencies and gates.",
+      structure: "Ordered phases, deliverables, dependencies, validation gates and a clearly marked current state.",
+      guard: "Do not invent dates, owners or dependencies; mark unknowns explicitly.",
+      negative: "invented schedule, missing gates, disconnected phases, vague deliverables",
+      emphasis: "phase boundaries, dependencies and decision gates",
+      evidenceSensitive: true
+    },
+    dashboard: {
+      command: "/dashboard",
+      objective: "Organize verified KPIs for rapid monitoring and exception detection.",
+      structure: "Primary KPI row, trends, breakdowns, thresholds, status labels and one exception/action area.",
+      guard: "Never fabricate values, trends or thresholds; use labelled placeholders if data is absent.",
+      negative: "invented KPIs, fake trends, unlabeled axes, decorative charts",
+      emphasis: "KPI hierarchy and exception visibility",
+      evidenceSensitive: true
+    },
+    architecture: {
+      command: "/architecture",
+      objective: "Explain a system through bounded components and directional flows.",
+      structure: "Actors, system boundary, components, interfaces, data/control flows and external dependencies.",
+      guard: "Do not invent services, protocols or relationships; distinguish verified, proposed and external components.",
+      negative: "unbounded system, unlabeled arrows, invented services, decorative connections",
+      emphasis: "component boundaries and flow semantics",
+      evidenceSensitive: true
+    },
+    blueprint: {
+      command: "/blueprint",
+      objective: "Present a technical object with disciplined orthographic or plan-style information.",
+      structure: "Primary view, supporting views, callouts, scale or dimension zones and a compact legend.",
+      guard: "Do not fabricate dimensions, materials or tolerances; mark unspecified engineering values as TBD.",
+      negative: "invented dimensions, impossible geometry, missing legend, perspective distortion",
+      emphasis: "technical line hierarchy and callout precision",
+      evidenceSensitive: true
+    },
+    explodedview: {
+      command: "/explodedview",
+      objective: "Show assembly order and spatial relationships between supplied components.",
+      structure: "Stable axis, separated parts, alignment guides, numbered callouts and assembly direction.",
+      guard: "Do not invent hidden parts, fasteners or interfaces that were not supplied.",
+      negative: "invented parts, misaligned axis, floating callouts, impossible assembly order",
+      emphasis: "part order and assembly relationship fidelity",
+      evidenceSensitive: true
+    },
+    xray: {
+      command: "/xray",
+      objective: "Reveal supplied internal components while preserving the external form.",
+      structure: "Recognizable outer shell, controlled transparency, highlighted internals, depth order and labelled callouts.",
+      guard: "Do not invent internal mechanisms or imply unseen functions without source content.",
+      negative: "invented internals, opaque shell, depth confusion, unlabeled components",
+      emphasis: "external/internal alignment and depth readability",
+      evidenceSensitive: true
+    },
+    wireframe: {
+      command: "/wireframe",
+      objective: "Define interface hierarchy and interaction structure before visual styling.",
+      structure: "Screen boundary, navigation, content hierarchy, controls, states and annotations in a low-fidelity system.",
+      guard: "Do not hide structural problems with polished decoration or invent unsupported product features.",
+      negative: "premature visual polish, missing states, fake features, inconsistent controls",
+      emphasis: "layout hierarchy and interaction states"
+    },
+    mockup: {
+      command: "/mockup",
+      objective: "Present a realistic preview of a supplied product, interface or asset in context.",
+      structure: "Accurate asset placement, realistic surface/device, controlled lighting, correct perspective and restrained environment.",
+      guard: "Do not alter supplied UI, copy, logo, proportions or product geometry.",
+      negative: "warped UI, changed logo, distorted proportions, implausible reflections",
+      emphasis: "asset fidelity and realistic presentation"
     }
   };
 
@@ -365,11 +556,14 @@
       tier: $("tier").value,
       platform: $("platform").value,
       format: $("format").value,
+      intent: $("intent").value,
+      audience: $("audience").value.trim(),
       niche: $("niche").value.trim(),
       goal: $("goal").value,
       hook: $("hook").value.trim(),
       brand: $("brand").value.trim(),
       idea: $("idea").value.trim(),
+      content: $("content").value.trim(),
       must: $("must").value.trim(),
       avoid: $("avoid").value.trim(),
       strict: $("strict").value,
@@ -387,13 +581,21 @@
 
   function buildCorePrompt(spec){
     const pr = PLATFORM_RULES[spec.platform] || { focus:"", textRule:"" };
+    const ir = INTENT_RULES[spec.intent] || INTENT_RULES.socialvisual;
     const triggers = scrollTriggers(spec.goal).join(", ");
 
+    const audienceLine = nonEmpty(spec.audience) ? `Audience / decision context: ${spec.audience}\n` : "";
     const nicheLine = nonEmpty(spec.niche) ? `Niche context: ${spec.niche}\n` : "";
     const brandLine = nonEmpty(spec.brand) ? `Brand style: ${spec.brand}\n` : "";
     const hookLine  = nonEmpty(spec.hook)  ? `Hook intent (optional): "${spec.hook}"\n` : "";
     const mustLine  = nonEmpty(spec.must)  ? `Must include: ${spec.must}\n` : "";
     const avoidLine = nonEmpty(spec.avoid) ? `Avoid (negative): ${spec.avoid}\n` : "";
+    const sourceContent = nonEmpty(spec.content) ? spec.content : "(none supplied)";
+    const fidelityRule = nonEmpty(spec.content)
+      ? "Preserve supplied labels, numbers and exact copy. Do not add facts, claims or relationships."
+      : ir.evidenceSensitive
+        ? "No source facts were supplied. Use explicit placeholders such as [VALUE], [DATE] or [LABEL]; do not invent data."
+        : "Do not add claims, copy, logos, UI elements or product features that are not stated in the brief.";
 
     return (
 `${modelAdapterHeader(spec.model)}${strictnessBlock(spec.strict)}
@@ -403,6 +605,12 @@ TARGET:
 - Goal: ${spec.goal}
 - Scroll triggers: ${triggers}
 
+VISUAL INTENT:
+- Command: ${ir.command}
+- Objective: ${ir.objective}
+- Required structure: ${ir.structure}
+- Failure guard: ${ir.guard}
+
 COMPOSITION RULES:
 - ${pr.focus}
 - Visual hierarchy: primary subject > supporting elements > background.
@@ -410,8 +618,14 @@ COMPOSITION RULES:
 - ${pr.textRule}
 
 CREATIVE BRIEF:
-${nicheLine}${brandLine}${hookLine}
+${audienceLine}${nicheLine}${brandLine}${hookLine}
 Core visual idea: ${spec.idea}
+
+SOURCE CONTENT:
+${sourceContent}
+
+FIDELITY GATE:
+- ${fidelityRule}
 
 DETAIL CONTROLS:
 - Lighting: high clarity, intentional highlights, no muddy tones.
@@ -429,7 +643,10 @@ OUTPUT REQUIREMENTS:
     return text
       .replace(/\n{3,}/g, "\n\n")
       .replace(/COMPOSITION RULES:/g, "COMPOSITION:")
+      .replace(/VISUAL INTENT:/g, "INTENT:")
       .replace(/CREATIVE BRIEF:/g, "BRIEF:")
+      .replace(/SOURCE CONTENT:/g, "SOURCE:")
+      .replace(/FIDELITY GATE:/g, "FIDELITY:")
       .replace(/DETAIL CONTROLS:/g, "DETAILS:")
       .replace(/OUTPUT REQUIREMENTS:/g, "OUTPUT:")
       .trim();
@@ -438,20 +655,25 @@ OUTPUT REQUIREMENTS:
   function variantPrompts(spec){
     const base = buildCorePrompt(spec);
     const count = TIER_VARIANTS[spec.tier] || 1;
+    const ir = INTENT_RULES[spec.intent] || INTENT_RULES.socialvisual;
+    const audience = nonEmpty(spec.audience) ? spec.audience : "the target audience";
 
     const variantStyles = [
-      {name:"PRIMARY", tweak:"Highest probability. Clean composition. Strong contrast. Minimal clutter."},
-      {name:"HIGH-CONTRAST", tweak:"Increase contrast & separation. Darker background. Brighter accent."},
-      {name:"MINIMAL", tweak:"Reduce elements to the minimum. Single dominant subject. Ultra-clean background."},
-      {name:"EMOTION", tweak:"Add emotional intensity (expression/gesture) without adding clutter."},
-      {name:"PATTERN-INTERRUPT", tweak:"One surprising but simple element that creates curiosity."},
+      {name:"PRIMARY", tweak:`Highest-probability execution. Preserve ${ir.emphasis}.`},
+      {name:"STRUCTURE-FIRST", tweak:`Prioritize ${ir.emphasis}; remove any element that does not support the required structure.`},
+      {name:"HIGH-CONTRAST", tweak:"Increase separation and reading order without changing supplied facts or labels."},
+      {name:"MINIMAL", tweak:"Reduce elements to the minimum while preserving every required relationship and fact."},
+      {name:"AUDIENCE-LED", tweak:`Optimize comprehension and visual language for ${audience}.`},
       {name:"BRAND-LOCK", tweak:"Enforce brand palette and styling strictly. Reduce randomness."},
-      {name:"SAFE", tweak:"Remove ambiguous/risky terms. Keep universally safe visuals."}
+      {name:"SAFE", tweak:"Remove ambiguous or unsupported elements. Preserve only supplied and structurally required content."}
     ].slice(0, count);
 
-    const negative = nonEmpty(spec.avoid)
-      ? `NEGATIVE PROMPT:\n${spec.avoid}`
-      : `NEGATIVE PROMPT:\nclutter, messy background, low contrast, blurry, text artifacts, watermarks, distorted hands, extra limbs`;
+    const negativeParts = [
+      "clutter, messy background, low contrast, blurry, text artifacts, watermarks",
+      ir.negative,
+      nonEmpty(spec.avoid) ? spec.avoid : ""
+    ].filter(nonEmpty);
+    const negative = `NEGATIVE PROMPT:\n${negativeParts.join(", ")}`;
 
     const compact = `COMPACT VERSION:\n${compactify(base)}`;
 
@@ -476,13 +698,16 @@ VARIANT TWEAK:
     const header =
 `PROMPTALCHEMY PREVIEW
 PromptID: ${promptId}
+Engine: ${ENGINE_VERSION} | Intent: ${(INTENT_RULES[spec.intent] || INTENT_RULES.socialvisual).command}
 Model: ${MODEL_LABEL[spec.model]} | Tier: ${spec.tier.toUpperCase()} | Platform: ${spec.platform.toUpperCase()} | Format: ${spec.format}
 Generated: ${new Date().toISOString()}
 `.trim();
 
     if(spec.outmode === "single"){
       const single = buildCorePrompt(spec);
-      const neg = nonEmpty(spec.avoid) ? spec.avoid : "clutter, messy background, low contrast, blurry, watermarks, text artifacts";
+      const ir = INTENT_RULES[spec.intent] || INTENT_RULES.socialvisual;
+      const neg = ["clutter, messy background, low contrast, blurry, watermarks, text artifacts", ir.negative, spec.avoid]
+        .filter(nonEmpty).join(", ");
       return { ok:true, text:`${header}\n\n=== SINGLE PROMPT ===\n${single}\n\n=== NEGATIVE PROMPT ===\n${neg}\n` };
     }
 
@@ -528,11 +753,14 @@ Generated: ${new Date().toISOString()}
         $("tier").value = s.tier || "gold";
         $("platform").value = s.platform || "";
         $("format").value = s.format || "";
+        $("intent").value = s.intent || "socialvisual";
+        $("audience").value = s.audience || "";
         $("niche").value = s.niche || "";
         $("goal").value = s.goal || "authority";
         $("hook").value = s.hook || "";
         $("brand").value = s.brand || "";
         $("idea").value = s.idea || "";
+        $("content").value = s.content || "";
         $("must").value = s.must || "";
         $("avoid").value = s.avoid || "";
         $("strict").value = s.strict || "balanced";
@@ -701,7 +929,9 @@ Tier: ${spec.tier} (credits=${credits})
 Model: ${MODEL_LABEL[spec.model]}
 Platform: ${spec.platform}
 Format: ${spec.format}
+Visual intent: ${(INTENT_RULES[spec.intent] || INTENT_RULES.socialvisual).command}
 Goal: ${spec.goal}
+Audience: ${spec.audience || "(none)"}
 Niche: ${spec.niche || "(none)"}
 Hook: ${spec.hook || "(none)"}
 
@@ -722,11 +952,14 @@ Thanks.`;
     $("tier").value = "gold";
     $("platform").value = "";
     $("format").value = "4:5";
+    $("intent").value = "socialvisual";
+    $("audience").value = "";
     $("niche").value = "";
     $("goal").value = "authority";
     $("hook").value = "";
     $("brand").value = "";
     $("idea").value = "";
+    $("content").value = "";
     $("must").value = "";
     $("avoid").value = "";
     $("strict").value = "balanced";
@@ -766,11 +999,13 @@ Required:
 - Format
 - Core visual idea
 
+Visual Intent adds mode-specific structure and failure guards.
+
 Flow:
 1) Generate Preview
 2) Copy / Download
 3) Send to Alchemy (Email) = credit event
-4) Share Link = viadecide.com/#p=...`;
+4) Share Link = viadecide.com/tools/promptalchemy#p=...`;
 </script>
 </body>
 </html>
